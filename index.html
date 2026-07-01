@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azeem Labs | Android & Web Development</title>
+    <style>
+        /* Modern CSS Variables for Smooth Light/Dark Mode Transition */
+        :root[data-theme="dark"] {
+            --bg-main: #030712;
+            --bg-card: #0b1329;
+            --bg-nav: rgba(11, 19, 41, 0.85);
+            --border-color: rgba(0, 180, 216, 0.15);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --accent: #00b4d8;
+            --accent-glow: rgba(0, 180, 216, 0.4);
+            --card-shadow: rgba(0, 0, 0, 0.5);
+        }
+
+        :root[data-theme="light"] {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-nav: rgba(255, 255, 255, 0.85);
+            --border-color: rgba(14, 165, 233, 0.2);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --accent: #0ea5e9;
+            --accent-glow: rgba(14, 165, 233, 0.2);
+            --card-shadow: rgba(148, 163, 184, 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; 
+            background-color: var(--bg-main); 
+            color: var(--text-main); 
+            line-height: 1.6; 
+        }
+
+        /* Glassmorphic Navbar */
+        nav {
+            position: fixed;
+            top: 0; width: 100%; z-index: 1000;
+            background: var(--bg-nav);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .nav-brand { font-size: 1.3rem; font-weight: 800; letter-spacing: 1px; color: var(--text-main); text-decoration: none; }
+        .nav-brand span { color: var(--accent); }
+        
+        .nav-controls { display: flex; align-items: center; gap: 1.5rem; }
+        .nav-menu { display: flex; gap: 1.5rem; list-style: none; }
+        .nav-menu a { color: var(--text-main); text-decoration: none; font-weight: 500; font-size: 0.95rem; }
+        .nav-menu a:hover { color: var(--accent); }
+
+        /* Modern Toggle Switch Button */
+        .theme-toggle-btn {
+            background: none; border: 1px solid var(--border-color);
+            padding: 0.5rem 0.75rem; border-radius: 8px;
+            color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 0.85rem;
+            display: flex; align-items: center; gap: 0.4rem;
+        }
+        .theme-toggle-btn:hover { background: var(--accent-glow); }
+
+        /* Menu Burger for Mobile */
+        .menu-burger { display: none; background: none; border: none; color: var(--text-main); font-size: 1.5rem; cursor: pointer; }
+
+        /* Premium Header Hero */
+        header { 
+            position: relative; 
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-main) 100%), url('images/header-bg.jpg') no-repeat center center/cover;
+            padding: 8rem 1.5rem 4rem 1.5rem; 
+            text-align: center; 
+        }
+        .header-logo {
+            width: 110px; height: 110px; border-radius: 22px; margin-bottom: 1.5rem;
+            box-shadow: 0 10px 25px var(--accent-glow);
+            border: 2px solid var(--accent);
+        }
+        header h1 { font-size: 3.5rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 0.5rem; }
+        header p { font-size: 1.25rem; color: var(--accent); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+        /* Professional Identity Box */
+        .profile-card {
+            background: var(--bg-card); padding: 3rem; border-radius: 24px; margin-bottom: 3rem;
+            box-shadow: 0 20px 40px var(--card-shadow); border: 1px solid var(--border-color);
+            display: flex; gap: 3rem; align-items: center;
+        }
+        .profile-img-wrapper { flex-shrink: 0; }
+        .profile-img {
+            width: 160px; height: 160px; border-radius: 50%; object-fit: cover;
+            border: 4px solid var(--accent); box-shadow: 0 0 25px var(--accent-glow);
+        }
+        .profile-info h2 { font-size: 2rem; margin-bottom: 1rem; font-weight: 800; }
+        .profile-info p { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 1.2rem; }
+
+        /* Interactive Tags */
+        .skills-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .skill-tag { 
+            background: var(--bg-main); color: var(--text-main); 
+            padding: 0.4rem 1rem; border-radius: 12px; font-weight: 600; font-size: 0.85rem;
+            border: 1px solid var(--border-color);
+        }
+        .skill-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* Dynamic Content Sections */
+        .section-title { font-size: 2rem; font-weight: 800; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        .section-title::after { content: ''; flex-grow: 1; height: 1px; background: var(--border-color); margin-left: 1rem; }
+        .content-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 4rem; }
+
+        /* Beautiful Post & App Cards */
+        .item-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            padding: 2rem; border-radius: 20px; box-shadow: 0 10px 20px var(--card-shadow);
+            display: flex; gap: 1.5rem; align-items: flex-start;
+        }
+        .item-card:hover { border-color: var(--accent); transform: translateY(-2px); transition: transform 0.2s ease, border-color 0.2s ease; }
+        .item-icon { width: 70px; height: 70px; border-radius: 16px; border: 1px solid var(--border-color); object-fit: cover; }
+        .item-details h3 { font-size: 1.35rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main); }
+        .item-details p { color: var(--text-muted); font-size: 1rem; }
+        
+        .date-badge {
+            display: inline-block; background: var(--border-color); color: var(--accent);
+            padding: 0.25rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.5rem;
+        }
+
+        /* Modern Contact Grid Layout */
+        .contact-box {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            padding: 2.5rem; border-radius: 24px; text-align: center;
+            box-shadow: 0 20px 40px var(--card-shadow);
+        }
+        .email-link {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: var(--bg-main); color: var(--accent); font-weight: 700;
+            padding: 1rem 2rem; border-radius: 14px; text-decoration: none;
+            font-size: 1.2rem; border: 1px solid var(--border-color); margin-top: 1rem;
+        }
+        .email-link:hover { background: var(--accent); color: #ffffff; box-shadow: 0 0 20px var(--accent-glow); }
+
+        footer { text-align: center; padding: 4rem 1rem 2rem 1rem; color: var(--text-muted); font-size: 0.9rem; }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 820px) {
+            .profile-card { flex-direction: column; text-align: center; padding: 2rem; }
+            .nav-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: var(--bg-card); flex-direction: column; padding: 1.5rem; border-bottom: 1px solid var(--border-color); gap: 1rem; text-align: center;}
+            .nav-menu.active { display: flex; }
+            .menu-burger { display: block; }
+            header h1 { font-size: 2.5rem; }
+        }
+        @media (max-width: 550px) {
+            .item-card { flex-direction: column; align-items: center; text-align: center; }
+            .email-link { font-size: 0.95rem; padding: 0.8rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Smooth Navigation Header -->
+    <nav>
+        <a href="#" class="nav-brand">AZEEM<span>LABS</span></a>
+        <div class="nav-controls">
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#about" onclick="toggleMenu()">About</a></li>
+                <li><a href="#apps" onclick="toggleMenu()">Applications</a></li>
+                <li><a href="#updates" onclick="toggleMenu()">Updates</a></li>
+                <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+            </ul>
+            <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn">
+                🌙 Dark
+            </button>
+            <button class="menu-burger" onclick="toggleMenu()">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Identity Showcase -->
+    <header>
+        <img src="images/logo.png" alt="Azeem Labs Logo" class="header-logo" onerror="this.style.display='none'">
+        <h1>Azeem Labs</h1>
+        <p>Building Digital Tomorrow</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- About Developer Profile Card -->
+        <section id="about" class="profile-card">
+            <div class="profile-img-wrapper">
+                <img src="images/profile.jpg" alt="Azeem Bakhsh" class="profile-img" onerror="this.src='https://via.placeholder.com/160'">
+            </div>
+            <div class="profile-info">
+                <h2>About Me</h2>
+                <p>Hello! Main Azeem Bakhsh hoon—Hubchowkey, Balochistan se ek native Android aur Full-Stack application developer. Azeem Labs ke zariye mera focus advanced mobile infrastructure, seamless cloud computing platforms aur user-centric application engineering par hai.</p>
+                <p>Mera primary tech stack Native Android architecture (Java, XML), advanced View Binding implementations, local data models (SQLite/Room), aur multi-tier cloud synchronization ecosystems (Firebase) par mustamil hai. Iske sath sath, responsive design components build karne ke liye main HTML, CSS, aur modern JavaScript (JS) platforms ka utilize karta hoon.</p>
+                
+                <div class="skills-grid">
+                    <span class="skill-tag">Java</span>
+                    <span class="skill-tag">Android SDK</span>
+                    <span class="skill-tag">XML Layouts</span>
+                    <span class="skill-tag">HTML5 / CSS3</span>
+                    <span class="skill-tag">JavaScript (JS)</span>
+                    <span class="skill-tag">Material 3 UI</span>
+                    <span class="skill-tag">Firebase Systems</span>
+                    <span class="skill-tag">SQLite Engine</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Applications Layout Grid -->
+        <section id="apps" class="content-grid">
+            <h2 class="section-title">Production Applications</h2>
+            <div id="apps-container"></div>
+        </section>
+
+        <!-- Dynamic News & Logs Layout Grid -->
+        <section id="updates" class="content-grid">
+            <h2 class="section-title">Latest Updates & Logs</h2>
+            <div id="updates-container"></div>
+        </section>
+
+        <!-- Contact Framework Section -->
+        <section id="contact" class="contact-box">
+            <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">Let's Connect</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Agay chal kar kisi project collaboration, monetization alignment, ya technical query ke liye aap direct mujhe email ke zariye approach kar sakte hain.</p>
+            <a href="mailto:azeemlabs.pk@gmail.com" class="email-link">
+                📧 azeemlabs.pk@gmail.com
+            </a>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Azeem Labs. All rights reserved. Managed via High-Tier Architecture.</p>
+    </footer>
+
+    <!-- INTERACTIVE DATA AND THEME CONTROLLER -->
+    <script>
+        // ==========================================================
+        // DYNAMIC CONSOLE DATA (Yahan se easily data update/add karen)
+        // ==========================================================
+        const MY_APPS_DATA = [
+            {
+                title: "Groups Community",
+                icon: "images/groups-icon.png", 
+                description: "Mera signature infrastructure asset jo custom network messaging platforms ke community group links ko real-time index, dynamic filter, aur state-sync handle karne ke liye deploy kiya gaya hai. High-end cloud databases aur seamless dynamic configurations se equipped hai."
+            }
+        ];
+
+        const MY_UPDATES_DATA = [
+            {
+                title: "Google Play Production Access Clear!",
+                date: "June 2026",
+                description: "Hamare primary social application ne successfully 14-days structural verification testing period complete kar ke direct public engineering rollout access claim kar liya hai."
+            },
+            {
+                title: "Next-Gen Glassmorphic UI Live",
+                date: "July 2026",
+                description: "Azeem Labs ki system dashboard architecture ko modern standards par shift kar diya gaya hai, jisme absolute performance enhancements aur system dark/light synchronization enabled hai."
+            }
+        ];
+
+        // --- THEME SWAPPING CORE ---
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', targetTheme);
+            document.getElementById('themeBtn').innerHTML = targetTheme === 'dark' ? '🌙 Dark' : '☀️ Light';
+        }
+
+        // --- MOBILE MENU ACCORDION ---
+        function toggleMenu() {
+            const menu = document.getElementById('navMenu');
+            if(window.innerWidth <= 820) {
+                menu.classList.toggle('active');
+            }
+        }
+
+        // --- RENDER ENGINES ---
+        function buildDashboard() {
+            document.getElementById('apps-container').innerHTML = MY_APPS_DATA.map(app => `
+                <div class="item-card">
+                    <img src="${app.icon}" class="item-icon" onerror="this.src='https://via.placeholder.com/70?text=App'">
+                    <div class="item-details">
+                        <h3>${app.title}</h3>
+                        <p>${app.description}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('updates-container').innerHTML = MY_UPDATES_DATA.map(update => `
+                <div class="item-card">
+                    <div class="item-details">
+                        <span class="date-badge">${update.date}</span>
+                        <h3>${update.title}</h3>
+                        <p>${update.description}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.onload = buildDashboard;
+    </script>
+</body>
+</html>
