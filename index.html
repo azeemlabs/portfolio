@@ -209,6 +209,7 @@
     <header>
         <img src="images/logo.png" alt="Azeem Labs Logo" class="header-logo" onerror="this.style.display='none'">
         <h1>Azeem Labs</h1>
+        <br/>
         <p>Building Digital Tomorrow</p>
         <a href="https://play.google.com/store/apps/dev?id=5633718217139593766" target="_blank" class="play-store-btn">
             <svg viewBox="0 0 24 24"><path d="M17.523 15.3l-3.216-3.216 3.23-3.23 3.593 2.052c1.036.592 1.036 1.556 0 2.148l-3.607 2.046zM3.43 2.46c-.07.147-.11.325-.11.523v18.034c0 .198.04.376.11.522l9.643-9.642L3.43 2.46zm10.742 8.524L4.838 1.65c.44-.316 1.054-.236 1.637.1l9.31 5.316-1.613 1.614-2.3 2.304zm2.3 2.31l1.627 1.627-9.324 5.295c-.583.33-1.197.412-1.637.096l9.334-9.328 2z"/></svg>
@@ -272,10 +273,14 @@
 
     </div>
 
+     <div class="skills-grid" style="justify-content: center; margin-bottom: 2rem;">
+         <span class="skill-tag"> Total Unique Visitors: <span id="total-visitors">Loading...</span></span>
+    </div>
+
     <footer>
         <p>&copy; 2026 Azeem Labs. All rights reserved. Managed via High-Tier Architecture.</p>
     </footer>
-
+<script src="js/counter-popup.js"></script>
     <script>
         // Global Arrays for holding final data
 let MY_APPS_DATA = [];
