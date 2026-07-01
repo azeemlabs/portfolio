@@ -16,6 +16,7 @@
             --accent: #00b4d8;
             --accent-glow: rgba(0, 180, 216, 0.4);
             --card-shadow: rgba(0, 0, 0, 0.5);
+            --icon-fill: #f3f4f6;
         }
 
         :root[data-theme="light"] {
@@ -28,6 +29,7 @@
             --accent: #0ea5e9;
             --accent-glow: rgba(14, 165, 233, 0.2);
             --card-shadow: rgba(148, 163, 184, 0.1);
+            --icon-fill: #0f172a;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
@@ -62,8 +64,9 @@
             background: none; border: 1px solid var(--border-color);
             padding: 0.5rem 0.75rem; border-radius: 8px;
             color: var(--text-main); cursor: pointer; font-weight: 600; font-size: 0.85rem;
-            display: flex; align-items: center; gap: 0.4rem;
+            display: flex; align-items: center; gap: 0.5rem;
         }
+        .theme-toggle-btn svg { width: 16px; height: 16px; fill: var(--icon-fill); }
         .theme-toggle-btn:hover { background: var(--accent-glow); }
 
         /* Menu Burger for Mobile */
@@ -72,7 +75,7 @@
         /* Premium Header Hero */
         header { 
             position: relative; 
-            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-main) 100%), url('images/header-bg.jpg') no-repeat center center/cover;
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-main) 100%), url('images/header-bg.png') no-repeat center center/cover;
             padding: 8rem 1.5rem 4rem 1.5rem; 
             text-align: center; 
         }
@@ -82,7 +85,16 @@
             border: 2px solid var(--accent);
         }
         header h1 { font-size: 3.5rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 0.5rem; }
-        header p { font-size: 1.25rem; color: var(--accent); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+        header p { font-size: 1.25rem; color: var(--accent); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.5rem; }
+        
+        .play-store-btn {
+            display: inline-flex; align-items: center; gap: 0.6rem;
+            background: #000000; color: #ffffff; text-decoration: none;
+            padding: 0.7rem 1.4rem; border-radius: 10px; font-weight: 600; font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 0.5rem;
+        }
+        .play-store-btn svg { width: 18px; height: 18px; fill: #ffffff; }
+        .play-store-btn:hover { border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
 
         .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; }
 
@@ -136,13 +148,25 @@
             padding: 2.5rem; border-radius: 24px; text-align: center;
             box-shadow: 0 20px 40px var(--card-shadow);
         }
+        .contact-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-top: 1.5rem; }
         .email-link {
-            display: inline-flex; align-items: center; gap: 0.5rem;
+            display: inline-flex; align-items: center; gap: 0.6rem;
             background: var(--bg-main); color: var(--accent); font-weight: 700;
             padding: 1rem 2rem; border-radius: 14px; text-decoration: none;
-            font-size: 1.2rem; border: 1px solid var(--border-color); margin-top: 1rem;
+            font-size: 1.1rem; border: 1px solid var(--border-color);
         }
+        .email-link svg { width: 20px; height: 20px; fill: var(--accent); }
         .email-link:hover { background: var(--accent); color: #ffffff; box-shadow: 0 0 20px var(--accent-glow); }
+        .email-link:hover svg { fill: #ffffff; }
+        
+        .play-contact-link {
+            display: inline-flex; align-items: center; gap: 0.6rem;
+            background: #0ea5e9; color: #ffffff; font-weight: 700;
+            padding: 1rem 2rem; border-radius: 14px; text-decoration: none;
+            font-size: 1.1rem; border: 1px solid transparent;
+        }
+        .play-contact-link svg { width: 20px; height: 20px; fill: #ffffff; }
+        .play-contact-link:hover { background: #0284c7; box-shadow: 0 0 20px rgba(14, 165, 233, 0.5); }
 
         footer { text-align: center; padding: 4rem 1rem 2rem 1rem; color: var(--text-muted); font-size: 0.9rem; }
 
@@ -153,10 +177,11 @@
             .nav-menu.active { display: flex; }
             .menu-burger { display: block; }
             header h1 { font-size: 2.5rem; }
+            .contact-actions { flex-direction: column; align-items: stretch; }
         }
         @media (max-width: 550px) {
             .item-card { flex-direction: column; align-items: center; text-align: center; }
-            .email-link { font-size: 0.95rem; padding: 0.8rem 1rem; }
+            .email-link, .play-contact-link { font-size: 0.95rem; padding: 0.8rem 1rem; }
         }
     </style>
 </head>
@@ -173,7 +198,8 @@
                 <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
             </ul>
             <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn">
-                🌙 Dark
+                <svg id="themeIcon" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+                <span id="themeText">Dark</span>
             </button>
             <button class="menu-burger" onclick="toggleMenu()">☰</button>
         </div>
@@ -184,6 +210,10 @@
         <img src="images/logo.png" alt="Azeem Labs Logo" class="header-logo" onerror="this.style.display='none'">
         <h1>Azeem Labs</h1>
         <p>Building Digital Tomorrow</p>
+        <a href="https://play.google.com/store/apps/dev?id=5633718217139593766" target="_blank" class="play-store-btn">
+            <svg viewBox="0 0 24 24"><path d="M17.523 15.3l-3.216-3.216 3.23-3.23 3.593 2.052c1.036.592 1.036 1.556 0 2.148l-3.607 2.046zM3.43 2.46c-.07.147-.11.325-.11.523v18.034c0 .198.04.376.11.522l9.643-9.642L3.43 2.46zm10.742 8.524L4.838 1.65c.44-.316 1.054-.236 1.637.1l9.31 5.316-1.613 1.614-2.3 2.304zm2.3 2.31l1.627 1.627-9.324 5.295c-.583.33-1.197.412-1.637.096l9.334-9.328 2z"/></svg>
+            View Play Store Developer Profile
+        </a>
     </header>
 
     <div class="container">
@@ -195,8 +225,8 @@
             </div>
             <div class="profile-info">
                 <h2>About Me</h2>
-                <p>Hello! Main Azeem Bakhsh hoon—Hubchowkey, Balochistan se ek native Android aur Full-Stack application developer. Azeem Labs ke zariye mera focus advanced mobile infrastructure, seamless cloud computing platforms aur user-centric application engineering par hai.</p>
-                <p>Mera primary tech stack Native Android architecture (Java, XML), advanced View Binding implementations, local data models (SQLite/Room), aur multi-tier cloud synchronization ecosystems (Firebase) par mustamil hai. Iske sath sath, responsive design components build karne ke liye main HTML, CSS, aur modern JavaScript (JS) platforms ka utilize karta hoon.</p>
+                <p>Hello! I am Azeem Bakhsh—a native Android and Full-Stack application developer based in Hub, Balochistan. Through Azeem Labs, my core focus revolves around developing advanced mobile infrastructure, scalable cloud computing solutions, and engineered user-centric digital experiences.</p>
+                <p>My primary technical framework is specialized in Native Android architectures using Java and structural XML layouts. I regularly implement modular View Binding workflows, persistent local storage modules via SQLite and Room Database, along with unified serverless cloud synchronization platforms leveraging Firebase Ecosystems. Additionally, I integrate modern HTML5, CSS3, and JavaScript platforms to architect responsive web modules.</p>
                 
                 <div class="skills-grid">
                     <span class="skill-tag">Java</span>
@@ -226,10 +256,18 @@
         <!-- Contact Framework Section -->
         <section id="contact" class="contact-box">
             <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">Let's Connect</h2>
-            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Agay chal kar kisi project collaboration, monetization alignment, ya technical query ke liye aap direct mujhe email ke zariye approach kar sakte hain.</p>
-            <a href="mailto:azeemlabs.pk@gmail.com" class="email-link">
-                📧 azeemlabs.pk@gmail.com
-            </a>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Feel free to reach out directly via email for project collaborations, structural alignments, strategic monetization partnerships, or explore our active apps on the Play Store.</p>
+            
+            <div class="contact-actions">
+                <a href="mailto:azeemlabs.pk@gmail.com" class="email-link">
+                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    azeemlabs.pk@gmail.com
+                </a>
+                <a href="https://play.google.com/store/apps/dev?id=5633718217139593766" target="_blank" class="play-contact-link">
+                    <svg viewBox="0 0 24 24"><path d="M17.523 15.3l-3.216-3.216 3.23-3.23 3.593 2.052c1.036.592 1.036 1.556 0 2.148l-3.607 2.046zM3.43 2.46c-.07.147-.11.325-.11.523v18.034c0 .198.04.376.11.522l9.643-9.642L3.43 2.46zm10.742 8.524L4.838 1.65c.44-.316 1.054-.236 1.637.1l9.31 5.316-1.613 1.614-2.3 2.304zm2.3 2.31l1.627 1.627-9.324 5.295c-.583.33-1.197.412-1.637.096l9.334-9.328 2z"/></svg>
+                    Google Play Apps
+                </a>
+            </div>
         </section>
 
     </div>
@@ -238,73 +276,111 @@
         <p>&copy; 2026 Azeem Labs. All rights reserved. Managed via High-Tier Architecture.</p>
     </footer>
 
-    <!-- INTERACTIVE DATA AND THEME CONTROLLER -->
     <script>
-        // ==========================================================
-        // DYNAMIC CONSOLE DATA (Yahan se easily data update/add karen)
-        // ==========================================================
-        const MY_APPS_DATA = [
-            {
-                title: "Groups Community",
-                icon: "images/groups-icon.png", 
-                description: "Mera signature infrastructure asset jo custom network messaging platforms ke community group links ko real-time index, dynamic filter, aur state-sync handle karne ke liye deploy kiya gaya hai. High-end cloud databases aur seamless dynamic configurations se equipped hai."
-            }
-        ];
+        // Global Arrays for holding final data
+let MY_APPS_DATA = [];
+let MY_UPDATES_DATA = [];
 
-        const MY_UPDATES_DATA = [
-            {
-                title: "Google Play Production Access Clear!",
-                date: "June 2026",
-                description: "Hamare primary social application ne successfully 14-days structural verification testing period complete kar ke direct public engineering rollout access claim kar liya hai."
-            },
-            {
-                title: "Next-Gen Glassmorphic UI Live",
-                date: "July 2026",
-                description: "Azeem Labs ki system dashboard architecture ko modern standards par shift kar diya gaya hai, jisme absolute performance enhancements aur system dark/light synchronization enabled hai."
-            }
-        ];
+// Fallback Data (Agar folders empty hon ya error aaye to ye dikhega)
+const FALLBACK_APPS = [{
+    title: "Groups Community",
+    icon: "images/groups-icon.png", 
+    description: "Our signature application driven by advanced remote structural setups and efficient data pipelines."
+}];
 
-        // --- THEME SWAPPING CORE ---
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+const FALLBACK_UPDATES = [{
+    title: "Portfolio Live",
+    date: "July 2026",
+    description: "Successfully updated Azeem Labs portfolio interface to modern visual structures."
+}];
+
+// Dynamic Multi-file Fetch Engine
+async function loadDynamicContent() {
+    // 1. Fetching Apps from apps/ folder
+    try {
+        const appsListResponse = await fetch('apps/apps-list.json');
+        if (appsListResponse.ok) {
+            const appFiles = await appsListResponse.json(); // ["app1.json", "app2.json"]
             
-            document.documentElement.setAttribute('data-theme', targetTheme);
-            document.getElementById('themeBtn').innerHTML = targetTheme === 'dark' ? '🌙 Dark' : '☀️ Light';
+            // Har individual app file ko fetch karne ke liye loop
+            const appPromises = appFiles.map(file => fetch(`apps/${file}`).then(res => res.json()));
+            MY_APPS_DATA = await Promise.all(appPromises);
+        } else {
+            MY_APPS_DATA = FALLBACK_APPS;
         }
+    } catch (e) {
+        console.log("Using Fallback Apps Data");
+        MY_APPS_DATA = FALLBACK_APPS;
+    }
 
-        // --- MOBILE MENU ACCORDION ---
-        function toggleMenu() {
-            const menu = document.getElementById('navMenu');
-            if(window.innerWidth <= 820) {
-                menu.classList.toggle('active');
-            }
+    // 2. Fetching Updates/Posts from posts/ folder
+    try {
+        const postsListResponse = await fetch('posts/posts-list.json');
+        if (postsListResponse.ok) {
+            const postFiles = await postsListResponse.json(); // ["post1.json", "post2.json"]
+            
+            // Har individual post file ko fetch karne ke liye loop
+            const postPromises = postFiles.map(file => fetch(`posts/${file}`).then(res => res.json()));
+            MY_UPDATES_DATA = await Promise.all(postPromises);
+        } else {
+            MY_UPDATES_DATA = FALLBACK_UPDATES;
         }
+    } catch (e) {
+        console.log("Using Fallback Updates Data");
+        MY_UPDATES_DATA = FALLBACK_UPDATES;
+    }
+}
 
-        // --- RENDER ENGINES ---
-        function buildDashboard() {
-            document.getElementById('apps-container').innerHTML = MY_APPS_DATA.map(app => `
-                <div class="item-card">
-                    <img src="${app.icon}" class="item-icon" onerror="this.src='https://via.placeholder.com/70?text=App'">
-                    <div class="item-details">
-                        <h3>${app.title}</h3>
-                        <p>${app.description}</p>
-                    </div>
-                </div>
-            `).join('');
+// --- THEME SWAPPING CORE ---
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', targetTheme);
+    document.getElementById('themeText').innerText = targetTheme === 'dark' ? 'Dark' : 'Light';
+    
+    const moonPath = "M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z";
+    const sunPath = "M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s0 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1z";
+    
+    document.querySelector('#themeIcon path').setAttribute('d', targetTheme === 'dark' ? moonPath : sunPath);
+}
 
-            document.getElementById('updates-container').innerHTML = MY_UPDATES_DATA.map(update => `
-                <div class="item-card">
-                    <div class="item-details">
-                        <span class="date-badge">${update.date}</span>
-                        <h3>${update.title}</h3>
-                        <p>${update.description}</p>
-                    </div>
-                </div>
-            `).join('');
-        }
+// --- MOBILE MENU ACCORDION ---
+function toggleMenu() {
+    const menu = document.getElementById('navMenu');
+    if(window.innerWidth <= 820) {
+        menu.classList.toggle('active');
+    }
+}
 
-        window.onload = buildDashboard;
+// --- RENDER ENGINES ---
+function buildDashboard() {
+    document.getElementById('apps-container').innerHTML = MY_APPS_DATA.map(app => `
+        <div class="item-card">
+            <img src="${app.icon}" class="item-icon" onerror="this.src='https://via.placeholder.com/70?text=App'">
+            <div class="item-details">
+                <h3>${app.title}</h3>
+                <p>${app.description}</p>
+            </div>
+        </div>
+    `).join('');
+
+    document.getElementById('updates-container').innerHTML = MY_UPDATES_DATA.map(update => `
+        <div class="item-card">
+            <div class="item-details">
+                <span class="date-badge">${update.date}</span>
+                <h3>${update.title}</h3>
+                <p>${update.description}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Trigger load on startup
+window.onload = async function() {
+    await loadDynamicContent();
+    buildDashboard();
+};
     </script>
 </body>
 </html>
